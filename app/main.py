@@ -1,7 +1,9 @@
 import os
 
 from dotenv import find_dotenv, load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 from requests.exceptions import HTTPError
 
 from .feishu import LarkException, MessageApiClient
@@ -25,12 +27,27 @@ async def root():
     return {"message": "Hello World"}
 
 
+class Notification(BaseModel):
+    content: str
+
+
 @app.post("/notifications")
-async def notify():
-    try:
-        message_api_client.send_text_with_open_id(OPEN_ID, "hi")
-        return {"code": 0, "message": "ok"}
-    except HTTPError as e:
-        return {"code": -1, "message": e.response.json()}
-    except LarkException as e:
-        return {"code": -1, "message": e}
+async def notify(noti: Notification):
+    message_api_client.send_text_with_open_id(OPEN_ID, noti.content)
+    return {"code": 0, "message": "ok"}
+
+
+@app.exception_handler(HTTPError)
+async def unicorn_exception_handler(request: Request, exc: HTTPError):
+    return JSONResponse(
+        status_code=500,
+        content={"code": -1, "message": exc.response.json()},
+    )
+
+
+@app.exception_handler(LarkException)
+async def unicorn_exception_handler(request: Request, exc: LarkException):
+    return JSONResponse(
+        status_code=500,
+        content={"code": -1, "message": exc},
+    )
