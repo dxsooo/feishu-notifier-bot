@@ -60,7 +60,11 @@ $ uvicorn app.main:app
 
 API 服务将部署到 <http://localhost:8000>
 
-### 使用
+### 使用示例
+
+```bash
+curl -X POST http://localhost:8000/notifications -H 'Content-Type: application/json' -d '{"content":"对不起，我是警察"}'
+```
 
 ## 开发
 
