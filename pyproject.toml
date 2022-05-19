@@ -8,6 +8,7 @@ authors = ["dxsooo <zeohan.dxs@gmail.com>"]
 python = "^3.10"
 fastapi = "^0.78.0"
 uvicorn = "^0.17.6"
+requests = "^2.27.1"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.6.0"

@@ -23,6 +23,7 @@
   - 发布机器人
   - 记录应用凭证的 app secret
 - 一台可以访问公网的机器，安装了docker或有python3.10以上环境
+- 找到自己的飞书帐号的open id
 
 ### docker
 
@@ -31,6 +32,9 @@
 ```bash
 # 安装依赖
 $ pip install -r requirements.txt
+
+# 启动
+$ uvicorn app.main:app
 ```
 
 ## 开发
@@ -42,4 +46,4 @@ $ pip install -r requirements.txt
 $ poetry install
 ```
 
-主要逻辑代码位于
+主要逻辑代码位于 [app/](./app/) 下，功能参考[飞书官方的示例](https://github.com/larksuite/lark-samples/tree/main/robot_quick_start/python)改写。
