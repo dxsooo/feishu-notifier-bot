@@ -14,7 +14,7 @@
 
 ## 使用方法
 
-准备工作
+### 准备工作
 
 - 安装飞书并创建一个个人帐号
 - 创建机器人
@@ -25,11 +25,25 @@
 - 一台可以访问公网的机器，安装了docker或有python3.10以上环境
 - 找到自己的飞书帐号的open id
 
-### docker
+### 部署
 
-### 直接部署
+#### docker
 
 ```bash
+$ docker run -d -e YOUR_APP_ID=${YOUR_APP_ID} \
+  -e APP_SECRET=${YOUR_APP_SECRET} \
+  -e OPEN_ID=${OPEN_ID_OF_YOUR_RECEIVE_ACCOUNT} \
+  -p 8000:80 dxsooo/feishu-notifier-bot
+```
+
+API 服务将部署到 <http://localhost:8000>
+
+#### 源码部署
+
+```bash
+# clone项目后
+$ cd feishu-notifier-bot
+
 # 安装依赖
 $ pip install -r requirements.txt
 
@@ -46,6 +60,8 @@ $ uvicorn app.main:app
 
 API 服务将部署到 <http://localhost:8000>
 
+### 使用
+
 ## 开发
 
 服务基于 [FastAPI](https://github.com/tiangolo/fastapi) 开发，包管理工具使用 Poetry
@@ -53,6 +69,9 @@ API 服务将部署到 <http://localhost:8000>
 ```bash
 # 初始化项目
 $ poetry install
+
+# 启动
+$ uvicorn app.main:app --reload
 ```
 
-主要逻辑代码位于 [app/](./app/) 下，功能参考[飞书官方的示例](https://github.com/larksuite/lark-samples/tree/main/robot_quick_start/python)改写。
+主要逻辑代码位于 [app/](./app/) 下，参考[飞书官方的示例](https://github.com/larksuite/lark-samples/tree/main/robot_quick_start/python)改写。
