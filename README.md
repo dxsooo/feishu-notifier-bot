@@ -10,7 +10,7 @@
 
 ## 实现方式
 
-使用飞书的机器人，应用程序发送信息给机器人的代理服务，服务调用机器人将信息发到个人飞书。这是考虑到在应用程序中嵌入机器人发信息的代码通用性较差，且发消息的代码也不是十分轻量，所以将机器人发信息做成一个服务，应用程序通过 http 请求调用。相当于做一个套机器人，本项目就是这个代理服务（也可以理解成机器人）。注意这个服务只能支持定向发送到一个人。
+使用飞书的机器人，应用程序发送信息给机器人的代理服务，服务调用机器人将信息发到个人飞书。这是考虑到在应用程序中嵌入机器人发信息的代码通用性较差，且发消息的代码也不是十分轻量，所以将机器人发信息做成一个服务，应用程序通过 http 请求调用。相当于做一个套机器人，本项目就是这个代理服务（也可以理解成机器人）。注意这个服务只能支持定向发送到一个人（对个人开发者足够了）。
 
 ## 使用方法
 
@@ -30,7 +30,7 @@
 #### docker
 
 ```bash
-$ docker run -d -e YOUR_APP_ID=${YOUR_APP_ID} \
+$ docker run -d -e APP_ID=${YOUR_APP_ID} \
   -e APP_SECRET=${YOUR_APP_SECRET} \
   -e OPEN_ID=${OPEN_ID_OF_YOUR_RECEIVE_ACCOUNT} \
   -p 8000:80 dxsooo/feishu-notifier-bot
@@ -74,8 +74,17 @@ curl -X POST http://localhost:8000/notifications -H 'Content-Type: application/j
 # 初始化项目
 $ poetry install
 
+# 创建环境变量文件
+$ cat > .env << EOF
+APP_ID=${YOUR_APP_ID}
+APP_SECRET=${YOUR_APP_SECRET}
+OPEN_ID=${OPEN_ID_OF_YOUR_RECEIVE_ACCOUNT}
+EOF
+
 # 启动
 $ uvicorn app.main:app --reload
 ```
 
 主要逻辑代码位于 [app/](./app/) 下，参考[飞书官方的示例](https://github.com/larksuite/lark-samples/tree/main/robot_quick_start/python)改写。
+
+欢迎提 issue 和 PR。
