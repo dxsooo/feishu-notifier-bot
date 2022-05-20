@@ -38,7 +38,7 @@ async def notify(noti: Notification):
 
 
 @app.exception_handler(HTTPError)
-async def unicorn_exception_handler(request: Request, exc: HTTPError):
+async def http_exception_handler(request: Request, exc: HTTPError):
     return JSONResponse(
         status_code=500,
         content={"code": -1, "message": exc.response.json()},
@@ -46,7 +46,7 @@ async def unicorn_exception_handler(request: Request, exc: HTTPError):
 
 
 @app.exception_handler(LarkException)
-async def unicorn_exception_handler(request: Request, exc: LarkException):
+async def lark_exception_handler(request: Request, exc: LarkException):
     return JSONResponse(
         status_code=500,
         content={"code": -1, "message": exc},
